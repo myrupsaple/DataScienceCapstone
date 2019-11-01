@@ -7,14 +7,15 @@ countTwo <- function(phrases){
         # Parse each phrase and then each pair of words from that phrase
         for (i in 1:length(phrases)){
                 if(i %% 500 == 0){
-                        print(paste("Analyzing:", i, "/", length(phrases), "complete"))
+                        print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
+                                    round(i/length(phrases), 4)*100 , '%) ', "complete", sep = ''))
                 }
                 if(i %% 2500 == 0){
                         time <- proc.time() - ptm
-                        time <- round(time[[1]], 3)
+                        time <- round(time[[1]], 4)
                         timems <- time * 1000
                         print(paste("Last 2500:", timems, "ms"))
-                        times[floor(i/2500)] <- timems
+                        times[i/2500] <- timems
                         print(paste("Total:", sum(times)/1000, "s"))
                         ptm <- proc.time()
                 }
