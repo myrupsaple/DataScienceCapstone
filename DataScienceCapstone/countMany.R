@@ -1,12 +1,12 @@
-countWords <- function(phrases){
+countMany <- function(phrases, n = 3) {
         library(hash)
         wordCounts <- hash()
         
         ptm <- proc.time()
         times = vector()
-        
-        # Parse each phrase and then each word from that phrase
+        # Parse each phrase and then each pair of words from that phrase
         for (i in 1:length(phrases)){
+                ###################Function Status Printouts###################
                 # Printout data so you can have the peace of mind of knowing
                 # how close the function is to completing :)
                 freqUpdate <- 500
@@ -24,26 +24,27 @@ countWords <- function(phrases){
                         print(paste("Total:", sum(times)/1000, "s"))
                         ptm <- proc.time()
                 }
+                ################################################################
+                
                 if(phrases[i] == ''){
                         next
                 }
                 currentPhrase <- unlist(strsplit(phrases[i], ' '))
-                # Parse each word
-                for (j in 1:length(currentPhrase)){
-                        # If a word was previously converted to a 0-length string,
-                        # skip the word. This could have occurred if a word was
-                        # entirely composed of special characters
-                        currentWord <- tolower(currentPhrase[j])
-                        if(currentWord == ''){
-                                next
+                if(length(currentPhrase) < n){
+                        next
+                }
+                # Analyze each substring of n words
+                for (j in 1:(length(currentPhrase) - (n - 1))){
+                        wordSequence <- ''
+                        for (k in j:(j + (n - 1))){
+                                wordSequence <- paste(wordSequence, currentPhrase[k])
                         }
-                        # Add one to the word's frequency count in the hash table
-                        currentCount <- wordCounts[[currentWord]]
+                        currentCount <- wordCounts[[wordSequence]]
                         if(is.null(currentCount)){
-                                wordCounts[[currentWord]] <- 1
+                                wordCounts[[wordSequence]] <- 1
                         }
                         else{
-                                wordCounts[[currentWord]] <- currentCount + 1
+                                wordCounts[[wordSequence]] = wordCounts[[wordSequence]] + 1
                         }
                 }
         }
@@ -51,13 +52,15 @@ countWords <- function(phrases){
         print("Finishing things up...")
         # Convert the hash table data back into a dataframe 
         # and sort in descemding order
-        word <- keys(wordCounts)
+
+        
+        words <- keys(wordCounts)
         counts_named <- values(wordCounts)
         count <- vector()
         for (i in 1:length(counts_named)){
                 count[i] <- counts_named[[i]]
         }
-        wordCountsDf <- data.frame(word, count)
+        wordCountsDf <- data.frame(words, count)
         wordCountsDf <- wordCountsDf[order(-count), ]
         rownames(wordCountsDf) <- c()
         wordCountsDf
