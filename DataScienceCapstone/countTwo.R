@@ -6,13 +6,16 @@ countTwo <- function(phrases){
         times = vector()
         # Parse each phrase and then each pair of words from that phrase
         for (i in 1:length(phrases)){
-                print(paste("Analyzing:", i, "/", length(phrases), "complete"))
-                if(i %% 20 == 0){
+                if(i %% 500 == 0){
+                        print(paste("Analyzing:", i, "/", length(phrases), "complete"))
+                }
+                if(i %% 2500 == 0){
                         time <- proc.time() - ptm
-                        timems <- round(time[[1]], 3)*1000
-                        print(paste("Last 20:", timems, "ms"))
-                        times[floor(i/20)] <- timems
-                        print(paste("Total:", sum(times), "ms"))
+                        time <- round(time[[1]], 3)
+                        timems <- time * 1000
+                        print(paste("Last 2500:", timems, "ms"))
+                        times[floor(i/2500)] <- timems
+                        print(paste("Total:", sum(times)/1000, "s"))
                         ptm <- proc.time()
                 }
                 if(phrases[i] == ''){
@@ -32,22 +35,23 @@ countTwo <- function(phrases){
                                 next
                         }
                         # Add to the combined words' frequency count
-                        if(currentWord %in% keys(wordCounts)){
-                                # Add if not the first occurrence of currentWord + nextWord
-                                if(nextWord %in% keys(wordCounts[[currentWord]])){
-                                        wordCounts[[currentWord]][[nextWord]] <-
-                                                wordCounts[[currentWord]][[nextWord]] +
-                                                1
-                                }
-                                # If first occurrence of combination, set value to 1
-                                else{
-                                        wordCounts[[currentWord]][[nextWord]] <- 1
-                                }
+                        currentFirst <- wordCounts[[currentWord]]
+                        if(is.null(currentFirst)){
+                                wordCounts[[currentWord]] <- hash()
+                                wordCounts[[currentWord]][[nextWord]] <- 1
                         }
                         # Create embedded hash table on first instance of currentWord
                         else{
-                                wordCounts[[currentWord]] <- hash()
-                                wordCounts[[currentWord]][[nextWord]] <- 1
+                                currentSecond <- wordCounts[[currentWord]][[nextWord]]
+                                # Add if not the first occurrence of currentWord + nextWord
+                                if(is.null(currentSecond)){
+                                        wordCounts[[currentWord]][[nextWord]] <- 1
+                                }
+                                # If first occurrence of combination, set value to 1
+                                else{
+                                        wordCounts[[currentWord]][[nextWord]] <-
+                                                wordCounts[[currentWord]][[nextWord]] + 1
+                                }
                         }
                 }
         }
