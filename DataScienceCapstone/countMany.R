@@ -1,4 +1,8 @@
 countMany <- function(phrases, n = 3, log = TRUE) {
+        # Log printout constants
+        freqUpdate <- 2000
+        freqReport <- 20000
+        
         library(hash)
         wordCounts <- hash()
         
@@ -10,24 +14,22 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 # Printout data so you can have the peace of mind of knowing
                 # how close the function is to completing :)
                 # Disable this part by setting argument log = False
-                freqUpdate <- 200
                 if(log){
                         if(i %% freqUpdate == 0){
                                 percent = round(i/length(phrases), 4)*100
-                                print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
-                                            percent, '%) ', "complete", sep = ''))
+                                print(paste0("Analyzing: ", i, "/", length(phrases), ' (', 
+                                            percent, '%) ', "complete"))
                         }
-                        freqReport <- 2000
                         if(i %% freqReport == 0){
                                 time <- proc.time() - ptm
                                 time <- round(time[[1]], 4)
                                 timems <- time * 1000
-                                print(paste("Last ", freqReport, " :", timems, "ms"))
+                                print(paste0("Last ", freqReport, ": ", timems, " ms"))
                                 times[i/freqReport] <- timems
                                 total = sum(times)/1000
                                 remaining = total*(100 - percent)/percent
-                                print(paste("Total:", sum(times)/1000, "s"))
-                                print(paste("Estimated Time Remaining: ", round(remaining, 2), "s"))
+                                print(paste0("Total: ", sum(times)/1000, " s"))
+                                print(paste0("Estimated Time Remaining: ", round(remaining, 2), " s"))
                                 ptm <- proc.time()
                         }
                 }
