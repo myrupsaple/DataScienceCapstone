@@ -66,32 +66,32 @@ countTwo <- function(phrases){
         # and sort in descemding order
         firstWords <- keys(wordCounts)
         
-        wordPairs <- vector()
-        pairCounts <- vector()
+        firstWordDat <- vector()
+        secondWordDat <- vector()
+        counts <- vector()
         
-        index = 1;
-        
+        index = 1
         for(i in 1:length(firstWords)){
                 firstWord <- firstWords[i]
                 secondaryHash <- wordCounts[[firstWord]]
                 secondWords <- keys(secondaryHash)
                 for(j in 1:length(secondWords)){
                         secondWord = secondWords[j]
-                        wordPairs[index] <- paste(firstWord, secondWord, ' ')
-                        pairCounts[index] <- wordCounts[[firstWord]][[secondWord]]
+                        firstWordDat[index] <- firstWord
+                        secondWordDat[index] <- secondWord
+                        counts[index] <- secondaryHash[[secondWord]]
                         index = index + 1
                 }
                         
         }
         
-        print(times)
-        
-        count <- vector()
-        for (i in 1:length(pairCounts)){
-                count[i] <- pairCounts[[i]]
+        tempCount <- vector()
+        for (i in 1:length(counts)){
+                tempCount[i] <- counts[[i]]
         }
-        wordCountsDf <- data.frame(wordPairs, count)
-        wordCountsDf <- wordCountsDf[order(-count), ]
+        wordCountsDf <- data.frame(firstWordDat, secondWordDat, tempCount)
+        wordCountsDf <- wordCountsDf[order(-counts), ]
         rownames(wordCountsDf) <- c()
+        colnames(wordCountsDf) <- c("First Word", "Second Word", "Count")
         wordCountsDf
 }

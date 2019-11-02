@@ -36,15 +36,33 @@ countMany <- function(phrases, n = 3) {
                 # Analyze each substring of n words
                 for (j in 1:(length(currentPhrase) - (n - 1))){
                         wordSequence <- ''
-                        for (k in j:(j + (n - 1))){
-                                wordSequence <- paste(wordSequence, currentPhrase[k])
+                        voided <- FALSE
+                        for (k in j:(j + (n - 2))){
+                                if(currentPhrase[k] == ''){
+                                        voided <- TRUE
+                                        break;
+                                }
+                                wordSequence <- paste(wordSequence, tolower(currentPhrase[k]))
+                        }
+                        nextWord <- tolower(currentPhrase[j + (n - 1)])
+                        if(nextWord == '' || voided){
+                                next
                         }
                         currentCount <- wordCounts[[wordSequence]]
                         if(is.null(currentCount)){
-                                wordCounts[[wordSequence]] <- 1
+                                wordCounts[[wordSequence]] <- hash()
+                                wordCounts[[wordSequence]][[nextWord]] <- 1
                         }
                         else{
-                                wordCounts[[wordSequence]] = wordCounts[[wordSequence]] + 1
+                                nextCount <- wordCounts[[wordSequence]][[nextWord]]
+                                if(is.null(nextCount)){
+                                        wordCounts[[wordSequence]][[nextWord]] <- 1
+                                }
+                                else{
+                                        wordCounts[[wordSequence]][[nextWord]] = 
+                                                wordCounts[[wordSequence]][[nextWord]] + 1        
+                                }
+                                
                         }
                 }
         }
@@ -52,16 +70,33 @@ countMany <- function(phrases, n = 3) {
         print("Finishing things up...")
         # Convert the hash table data back into a dataframe 
         # and sort in descemding order
-
+        wordSequences <- keys(wordCounts)
         
-        words <- keys(wordCounts)
-        counts_named <- values(wordCounts)
-        count <- vector()
-        for (i in 1:length(counts_named)){
-                count[i] <- counts_named[[i]]
+        wordSequenceDat <- vector()
+        nextWordDat <- vector()
+        counts <- vector()
+        
+        index = 1
+        for (i in 1:length(wordSequences)){
+                wordSequence <- wordSequences[i]
+                secondaryHash <- wordCounts[[wordSequence]]
+                nextWords <- keys(secondaryHash)
+                for (j in 1:length(nextWords)){
+                        nextWord <- nextWords[j]
+                        wordSequenceDat[index] <- wordSequence
+                        nextWordDat[index] <- nextWord
+                        counts[index] <- secondaryHash[[nextWord]]
+                        index = index + 1
+                }
         }
-        wordCountsDf <- data.frame(words, count)
-        wordCountsDf <- wordCountsDf[order(-count), ]
+        
+        tempCount <- vector()
+        for (i in 1:length(counts)){
+                tempCount[i] <- counts[[i]]
+        }
+        wordCountsDf <- data.frame(wordSequenceDat, nextWordDat, tempCount)
+        wordCountsDf <- wordCountsDf[order(-counts), ]
         rownames(wordCountsDf) <- c()
+        colnames(wordCountsDf) <- c("Leading Phrase", "Next Word", "Count")
         wordCountsDf
 }
