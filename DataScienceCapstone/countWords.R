@@ -71,5 +71,6 @@ countWords <- function(phrases, log = TRUE){
         wordCountsDf <- data.frame(word, count)
         wordCountsDf <- wordCountsDf[order(-count), ]
         rownames(wordCountsDf) <- c()
+        colnames(wordCountsDf) <- c("Word", "Count")
         wordCountsDf
 }
