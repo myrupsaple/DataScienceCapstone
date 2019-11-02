@@ -3,6 +3,7 @@ filterSpecial <- function(phrases, n = 10, log = TRUE){
         freqUpdate <- 25000
         
         filtered <- vector()
+        
         skipped = 0
         set.seed(1234)
         if (n == 1){
@@ -17,8 +18,8 @@ filterSpecial <- function(phrases, n = 10, log = TRUE){
                 # how close the function is to completing :)
                 # Disable this part by setting argument log = False
                 if(i %% freqUpdate == 0){
-                        print(paste("Processing:", i, "/", length(indices), ' (', 
-                                    round(i/length(indices), 4)*100 , '%)' , "complete"), sep = '')
+                        print(paste0("Processing: ", i, "/", length(indices), ' (',
+                                    round(i/length(indices), 4)*100, '%)' , " complete"))
                 }
                 #######################################################################
                 index = indices[i]
@@ -27,6 +28,7 @@ filterSpecial <- function(phrases, n = 10, log = TRUE){
                         next
                 }
                 filtered[i - skipped] <- gsub("[[:punct:]]", "", phrases[index])
+
         }
         
         print("Filtration Complete!")
