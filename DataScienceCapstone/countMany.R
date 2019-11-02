@@ -1,14 +1,14 @@
 countMany <- function(phrases, n = 3, log = TRUE) {
         # Log printout constants
-        freqUpdate <- 2000
-        freqReport <- 20000
+        freqUpdate <- 200
+        freqReport <- 2000
         
         library(hash)
         wordCounts <- hash()
         
         ptm <- proc.time()
         times = vector()
-        # Parse each phrase and then each pair of words from that phrase
+        # Parse eachnd then each phrase a pair of words from that phrase
         for (i in 1:length(phrases)){
                 ###################Function Status Printouts###################
                 # Printout data so you can have the peace of mind of knowing
@@ -79,6 +79,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
         print("Finishing things up...")
         # Convert the hash table data back into a dataframe 
         # and sort in descemding order
+        print("Retrieving keys...")
         wordSequences <- keys(wordCounts)
         
         wordSequenceDat <- vector()
@@ -87,6 +88,13 @@ countMany <- function(phrases, n = 3, log = TRUE) {
         
         index = 1
         for (i in 1:length(wordSequences)){
+                ################################################################
+                if(i %% freqReport == 0){
+                        percent = round(i/length(wordSequences), 4)*100
+                        print(paste0("Analyzing: ", i, "/", length(wordSequences), ' (', 
+                                     percent, '%) ', "complete"))
+                }
+                ################################################################
                 wordSequence <- wordSequences[i]
                 secondaryHash <- wordCounts[[wordSequence]]
                 nextWords <- keys(secondaryHash)
