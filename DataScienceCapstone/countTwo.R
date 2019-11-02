@@ -13,17 +13,21 @@ countTwo <- function(phrases, log = TRUE){
                 freqUpdate <- 2000
                 if(log){
                         if(i %% freqUpdate == 0){
+                                percent = round(i/length(phrases), 4)*100
                                 print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
-                                            round(i/length(phrases), 4)*100 , '%) ', "complete", sep = ''))
+                                            percent, '%) ', "complete", sep = ''))
                         }
-                        freqReport <- 20000
+                        freqReport <- 2000
                         if(i %% freqReport == 0){
                                 time <- proc.time() - ptm
                                 time <- round(time[[1]], 4)
                                 timems <- time * 1000
                                 print(paste("Last ", freqReport, " :", timems, "ms"))
                                 times[i/freqReport] <- timems
+                                total = sum(times)/1000
+                                remaining = total*(100 - percent)/percent
                                 print(paste("Total:", sum(times)/1000, "s"))
+                                print(paste("Estimated Time Remaining: ", round(remaining, 2), "s"))
                                 ptm <- proc.time()
                         }
                 }

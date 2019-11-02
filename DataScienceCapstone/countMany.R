@@ -10,20 +10,24 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 # Printout data so you can have the peace of mind of knowing
                 # how close the function is to completing :)
                 # Disable this part by setting argument log = False
-                freqUpdate <- 2000
+                freqUpdate <- 200
                 if(log){
                         if(i %% freqUpdate == 0){
+                                percent = round(i/length(phrases), 4)*100
                                 print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
-                                            round(i/length(phrases), 4)*100 , '%) ', "complete", sep = ''))
+                                            percent, '%) ', "complete", sep = ''))
                         }
-                        freqReport <- 20000
+                        freqReport <- 2000
                         if(i %% freqReport == 0){
                                 time <- proc.time() - ptm
                                 time <- round(time[[1]], 4)
                                 timems <- time * 1000
                                 print(paste("Last ", freqReport, " :", timems, "ms"))
                                 times[i/freqReport] <- timems
+                                total = sum(times)/1000
+                                remaining = total*(100 - percent)/percent
                                 print(paste("Total:", sum(times)/1000, "s"))
+                                print(paste("Estimated Time Remaining: ", round(remaining, 2), "s"))
                                 ptm <- proc.time()
                         }
                 }

@@ -13,7 +13,7 @@ filterSpecial <- function(phrases, n = 10, log = TRUE){
                 # Printout data so you can have the peace of mind of knowing
                 # how close the function is to completing :)
                 # Disable this part by setting argument log = False
-                if(i %% 10000 == 0){
+                if(i %% 25000 == 0){
                         print(paste("Processing:", i, "/", length(indices), ' (', 
                                     round(i/length(indices), 4)*100 , '%)' , "complete"), sep = '')
                 }
