@@ -1,4 +1,4 @@
-countTwo <- function(phrases){
+countTwo <- function(phrases, log = TRUE){
         library(hash)
         wordCounts <- hash()
         
@@ -6,23 +6,28 @@ countTwo <- function(phrases){
         times = vector()
         # Parse each phrase and then each pair of words from that phrase
         for (i in 1:length(phrases)){
+                ###################Function Status Printouts###################
                 # Printout data so you can have the peace of mind of knowing
                 # how close the function is to completing :)
-                freqUpdate <- 500
-                if(i %% freqUpdate == 0){
-                        print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
-                                    round(i/length(phrases), 4)*100 , '%) ', "complete", sep = ''))
+                # Disable this part by setting argument log = False
+                freqUpdate <- 2000
+                if(log){
+                        if(i %% freqUpdate == 0){
+                                print(paste("Analyzing: ", i, "/", length(phrases), ' (', 
+                                            round(i/length(phrases), 4)*100 , '%) ', "complete", sep = ''))
+                        }
+                        freqReport <- 20000
+                        if(i %% freqReport == 0){
+                                time <- proc.time() - ptm
+                                time <- round(time[[1]], 4)
+                                timems <- time * 1000
+                                print(paste("Last ", freqReport, " :", timems, "ms"))
+                                times[i/freqReport] <- timems
+                                print(paste("Total:", sum(times)/1000, "s"))
+                                ptm <- proc.time()
+                        }
                 }
-                freqReport <- 2500
-                if(i %% freqReport == 0){
-                        time <- proc.time() - ptm
-                        time <- round(time[[1]], 4)
-                        timems <- time * 1000
-                        print(paste("Last ", freqReport, " :", timems, "ms"))
-                        times[i/freqReport] <- timems
-                        print(paste("Total:", sum(times)/1000, "s"))
-                        ptm <- proc.time()
-                }
+                ################################################################
                 if(phrases[i] == ''){
                         next
                 }
