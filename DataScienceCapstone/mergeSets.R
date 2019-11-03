@@ -34,7 +34,7 @@ mergeSets <- function(data1, data2, data3){
         
         keyPhrases <- keys(wordCounts)
         keyWords <- vector()
-        nextWords <- vector()
+        followingWords <- vector()
         counts <- vector()
         index = 1
         
@@ -52,7 +52,7 @@ mergeSets <- function(data1, data2, data3){
                 for(j in 1:length(nextWords)){
                         nextWord <- nextWords[j]
                         keyWords[index] <- keyPhrase
-                        nextWords[index] <- nextWord
+                        followingWords[index] <- nextWord
                         counts[index] <- secondaryHash[[nextWord]]
                         index = index + 1
                 }
