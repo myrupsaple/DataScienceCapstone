@@ -38,13 +38,13 @@ mergeSets <- function(data1, data2, data3){
         counts <- vector()
         index = 1
         
-        freqPercent <- 1
-        freqUpdate <- floor(length(keyPhrases)/100)
+        freqPercent <- 10
+        freqUpdate <- floor(length(keyPhrases)/10)
         for(i in 1:length(keyPhrases)){
                 if(i %% freqUpdate == 0){
                         print(paste0("Processing: ", 
                                      freqPercent, '%', " complete"))
-                        freqPercent <- freqPercent + 1
+                        freqPercent <- freqPercent + 10
                 }
                 keyPhrase <- keyPhrases[i]
                 secondaryHash <- wordCounts[[keyPhrase]]
@@ -63,7 +63,7 @@ mergeSets <- function(data1, data2, data3){
                 tempCount[i] <- counts[[i]]
         }
         
-        merged <- data.frame(keyWords, nextWords, tempCount)
+        merged <- data.frame(keyWords, followingWords, tempCount)
         merged <- merged[order(-counts), ]
         rownames(merged) <- c()
         colnames(merged) <- c('Leading_Phrase', 'Next_Word', 'Count')
