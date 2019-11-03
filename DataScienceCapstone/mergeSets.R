@@ -47,7 +47,7 @@ mergeSets <- function(data1, data2, data3){
                         freqPercent <- freqPercent + 1
                 }
                 keyPhrase <- keyPhrases[i]
-                secondaryHash <- wordCount[[keyPhrase]]
+                secondaryHash <- wordCounts[[keyPhrase]]
                 nextWords <- keys(secondaryHash)
                 for(j in 1:length(nextWords)){
                         nextWord <- nextWords[j]
