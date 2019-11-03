@@ -21,7 +21,7 @@ mergeSetsSingles <- function(data1, data2, data3){
         counts <- vector()
         
         for (i in 1:length(allWords)){
-                currentWord <- allwords[i]
+                currentWord <- allWords[i]
                 keyWords[i] <- currentWord
                 counts[i] <- wordCounts[[currentWord]]
         }
