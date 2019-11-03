@@ -64,7 +64,7 @@ mergeSets <- function(data1, data2, data3){
         }
         
         merged <- data.frame(keyWords, nextWords, tempCount)
-        merged <- merged[order(-counts)]
+        merged <- merged[order(-counts), ]
         rownames(merged) <- c()
         colnames(merged) <- c('Leading Phrase', 'Next Word', 'Count')
         merged
