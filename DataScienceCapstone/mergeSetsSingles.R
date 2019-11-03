@@ -3,7 +3,7 @@ mergeSetsSingles <- function(data1, data2, data3){
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
-        for (i in 1:length(phrases)){
+        for (i in 1:dim(phrases)[1]){
                 currentPhrase <- phrases[i, 1]
                 currentCount <- phrases[i, 2]
                 currentKey <- wordCounts[[currentPhrase]]

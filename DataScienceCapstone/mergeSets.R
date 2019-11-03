@@ -3,52 +3,32 @@ mergeSets <- function(data1, data2, data3){
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
-        for (i in 1:length(phrases)[1]){
+        freqUpdate <- floor(dim(phrases)[1]/100)
+        freqPercent <- 1
+        for (i in 1:dim(phrases)[1]){
+                if(i %% freqUpdate == 0){
+                        print(paste0("Analyzing: ", 
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 1
+                }
                 currentPhrase <- phrases[i, 1]
                 nextWord <- phrases[i, 2]
                 count <- phrases[i, 3]
                 currentKey <- wordCounts[[currentPhrase]]
                 nextKey <- wordCounts[[currentPhrase]][[nextWord]]
                 if(is.null(currentKey)){
-                        wordCounts[[currentKey]] <- hash()
-                        wordCounts[[currentKey]][[nextWord]] <- count
+                        wordCounts[[currentPhrase]] <- hash()
+                        wordCounts[[currentPhrase]][[nextWord]] <- count
                 }
                 else{
                         if(is.null(nextKey)){
-                                wordCounts[[currentKey]][[nextWord]] <- count
+                                wordCounts[[currentPhrase]][[nextWord]] <- count
                         }
                         else{
-                                wordCounts[[currentKey]][[nextWord]] <-
-                                        wordCounts[[currentKey]][[nextWord]] +
+                                wordCounts[[currentPhrase]][[nextWord]] <-
+                                        wordCounts[[currentPhrase]][[nextWord]] +
                                         count
                         }
-                }
-        }
-        
-        wordSequences <- keys(wordCounts)
-        
-        wordSequenceDat <- vector()
-        nextWordDat <- vector()
-        counts <- vector()
-        
-        index = 1
-        for (i in 1:length(wordSequences)){
-                ################################################################
-                if(i %% freqReport == 0){
-                        percent = round(i/length(wordSequences), 4)*100
-                        print(paste0("De-Hashing Counts: ", i, "/", length(wordSequences), ' (', 
-                                     percent, '%) ', "complete"))
-                }
-                ################################################################
-                wordSequence <- wordSequences[i]
-                secondaryHash <- wordCounts[[wordSequence]]
-                nextWords <- keys(secondaryHash)
-                for (j in 1:length(nextWords)){
-                        nextWord <- nextWords[j]
-                        wordSequenceDat[index] <- wordSequence
-                        nextWordDat[index] <- nextWord
-                        counts[index] <- secondaryHash[[nextWord]]
-                        index = index + 1
                 }
         }
         
@@ -58,7 +38,14 @@ mergeSets <- function(data1, data2, data3){
         counts <- vector()
         index = 1
         
+        freqPercent <- 1
+        freqUpdate <- floor(length(keyPhrases)/100)
         for(i in 1:length(keyPhrases)){
+                if(i %% freqUpdate == 0){
+                        print(paste0("Processing: ", 
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 1
+                }
                 keyPhrase <- keyPhrases[i]
                 secondaryHash <- wordCount[[keyPhrase]]
                 nextWords <- keys(secondaryHash)
