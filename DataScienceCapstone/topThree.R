@@ -1,4 +1,7 @@
 topThree <- function(data){
+        freqUpdate <- floor(dim(data)[1]/10)
+        freqPercent <- 10
+        
         library(hash)
         wordCounts <- hash()
         countKey <- '#CountHash!'
@@ -6,6 +9,11 @@ topThree <- function(data){
         hashkeys <- c('a', 'b', 'c', countKey)
         
         for (i in 1:dim(data)[1]){
+                if(i %% freqUpdate == 0){
+                        print(paste0("Analyzing: ", 
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 10
+                }
                 currentPhrase <- data[i, 1]
                 nextWord <- data[i, 2]
                 freqCount <- data[i, 3]
@@ -35,7 +43,14 @@ topThree <- function(data){
         thirdPopular <- vector()
         counts <- vector()
         
+        freqPercent <- 10
+        freqUpdate <- floor(length(firstPhrases)/10)
         for (i in 1:length(firstPhrases)){
+                if(i %% freqUpdate == 0){
+                        print(paste0("Processing: ", 
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 10
+                }
                 keyWords[i] <- firstPhrases[i]
                 mostPopular <- wordCounts[[firstPhrases[i]]]
                 # Minus 2 for the count and index holders
