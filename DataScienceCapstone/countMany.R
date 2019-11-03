@@ -1,7 +1,7 @@
 countMany <- function(phrases, n = 3, log = TRUE) {
         # Log printout constants
-        freqUpdate <- 200
-        freqReport <- 2000
+        freqUpdate <- 2000
+        freqReport <- 20000
         
         library(hash)
         wordCounts <- hash()
@@ -91,7 +91,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 ################################################################
                 if(i %% freqReport == 0){
                         percent = round(i/length(wordSequences), 4)*100
-                        print(paste0("Analyzing: ", i, "/", length(wordSequences), ' (', 
+                        print(paste0("De-Hashing Counts: ", i, "/", length(wordSequences), ' (', 
                                      percent, '%) ', "complete"))
                 }
                 ################################################################
@@ -107,6 +107,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 }
         }
         
+        print('Finishing Final Touches...')
         tempCount <- vector()
         for (i in 1:length(counts)){
                 tempCount[i] <- counts[[i]]
