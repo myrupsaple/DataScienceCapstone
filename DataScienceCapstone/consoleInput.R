@@ -1,5 +1,5 @@
 consoleInput <- function(){
-        debugMode = FALSE
+        debugMode = TRUE
         # n1 = Blogs, n2 = News, n3 = Twitter (argument n for filterSpecial)
         if(debugMode){
                 n1 = 2000
@@ -7,8 +7,8 @@ consoleInput <- function(){
                 n3 = 2000
         }
         else{
-                n1 = 5
-                n2 = 5
+                n1 = 10
+                n2 = 10
                 n3 = 8
         }
         mode = 'PC'
@@ -52,23 +52,23 @@ consoleInput <- function(){
         rm(data)
         print('Finding Blogs Single Word Counts...')
         gdata <- countWords(fdata)
-        write.csv(gdata, 'Blogs Single Word Counts.csv', row.names = FALSE)
+        write.csv(gdata, '01_PreProcessed/Output/Blogs Single Word Counts.csv', row.names = FALSE)
         rm(gdata)
         print('Finding Blogs Two Word Counts...')
         gdata <- countTwo(fdata)
-        write.csv(gdata, 'Blogs Two Word Counts.csv', row.names = FALSE)
+        write.csv(gdata, '01_PreProcessed/Output/Output/Blogs Two Word Counts.csv', row.names = FALSE)
         rm(gdata)
         print('Finding Blogs Three Word Counts...')
         gdata <- countMany(fdata, n = 3)
-        write.csv(gdata, 'Blogs Three Word Counts.csv', row.names = FALSE)
+        write.csv(gdata, '01_PreProcessed/Output/Output/Blogs Three Word Counts.csv', row.names = FALSE)
         rm(gdata)
         print('Finding Blogs Four Word Counts...')
         gdata <- countMany(fdata, n = 4)
-        write.csv(gdata, 'Blogs Four Word Counts.csv', row.names = FALSE)
+        write.csv(gdata, '01_PreProcessed/Output/Output/Blogs Four Word Counts.csv', row.names = FALSE)
         rm(gdata)
         print('Finding Blogs Five Word Counts...')
         gdata <- countMany(fdata, n = 5)
-        write.csv(gdata, 'Blogs Five Word Counts.csv', row.names = FALSE)
+        write.csv(gdata, '01_PreProcessed/Output/Output/Blogs Five Word Counts.csv', row.names = FALSE)
         rm(fdata, gdata)
         
         time <- proc.time() - ptm
@@ -276,22 +276,22 @@ consoleInput <- function(){
         ptm <- proc.time()
         print('Top Three Sorting Blogs Two Word Counts...')
         data <- read.csv('Blogs Two Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Blogs Two Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Blogs Three Word Counts...')
         data <- read.csv('Blogs Three Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Blogs Three Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Blogs Four Word Counts...')
         data <- read.csv('Blogs Four Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Blogs Four Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Blogs Five Word Counts...')
         data <- read.csv('Blogs Five Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Blogs Five Word Counts2.csv', row.names = FALSE)
         rm(data, cleaner)
         
@@ -305,22 +305,22 @@ consoleInput <- function(){
         ptm <- proc.time()
         print('Top Three Sorting News Two Word Counts...')
         data <- read.csv('News Two Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'News Two Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting News Three Word Counts...')
         data <- read.csv('News Three Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'News Three Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting News Four Word Counts...')
         data <- read.csv('News Four Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'News Four Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting News Five Word Counts...')
         data <- read.csv('News Five Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'News Five Word Counts2.csv', row.names = FALSE)
         rm(data, cleaner)
         
@@ -334,22 +334,22 @@ consoleInput <- function(){
         ptm <- proc.time()
         print('Top Three Sorting Twitter Two Word Counts...')
         data <- read.csv('Twitter Two Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Twitter Two Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Twitter Three Word Counts...')
         data <- read.csv('Twitter Three Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Twitter Three Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Twitter Four Word Counts...')
         data <- read.csv('Twitter Four Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Twitter Four Word Counts2.csv', row.names = FALSE)
         rm(cleaner)
         print('Top Three Sorting Twitter Five Word Counts...')
         data <- read.csv('Twitter Five Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
-        cleaner <- filter(data)
+        cleaner <- topThree(data)
         write.csv(cleaner, 'Twitter Five Word Counts2.csv', row.names = FALSE)
         rm(data, cleaner)
         
