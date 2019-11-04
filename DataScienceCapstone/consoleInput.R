@@ -11,13 +11,18 @@ consoleInput <- function(){
                 n2 = 5
                 n3 = 8
         }
+        mode = 'Mac'
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
-        # funcDir <- 'C:/DS Capstone/DataScienceCapstone/DataScienceCapstone/'
-        # dataDir <- 'C:/DS Capstone/DataScienceCapstone/data/en_US/'
+        if(mode == 'PC'){
+                funcDir <- 'C:/DS Capstone/DataScienceCapstone/DataScienceCapstone/'
+                dataDir <- 'C:/DS Capstone/DataScienceCapstone/data/en_US/'
+        }
         ## Mac Directories
-        funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone'
-        dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
+        else if(mode == 'Mac'){
+                funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone'
+                dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
+        }
         setwd(funcDir)
         
         times <- data.frame(Process = character(), Time = numeric(), 
