@@ -12,14 +12,15 @@ predict <- function(text, hashList){
         lastWords <- paste(lastWords, collapse = ' ')
         
         nSuggestions <- 0
-        suggest1 <- ''
-        suggest2 <- ''
-        suggest3 <- ''
+        suggestions <- c('', '', '')
         if(len >= 4){
                 potentials <- hash5[[text]]
                 first <- potentials[1]
                 second <- potentials[2]
                 third <- potentials[3]
+                if(first != '' && nSuggestions < 3){
+                        suggestions[nSuggestions + 1] <- first
+                }
         }
 
         
