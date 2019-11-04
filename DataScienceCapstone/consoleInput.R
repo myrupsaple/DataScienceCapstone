@@ -11,7 +11,7 @@ consoleInput <- function(){
                 n2 = 5
                 n3 = 8
         }
-        mode = 'Mac'
+        mode = 'PC'
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
         if(mode == 'PC'){
@@ -24,6 +24,10 @@ consoleInput <- function(){
                 dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
         }
         setwd(funcDir)
+        
+        print(paste0('Debug Mode: ', debugMode, ' | OS Mode: ', mode))
+        print('Starting up...')
+        Sys.sleep(3)
         
         times <- data.frame(Process = character(), Time = numeric(), 
                             stringsAsFactors = FALSE)
