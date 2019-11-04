@@ -1,14 +1,15 @@
 mergeSets <- function(data1, data2, data3){
+        debug = TRUE # Disables output log
         library(hash)
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
+        freqUpdate <- floor(dim(phrases)[1]/100)
         # May need to change '100' to something smaller for data sets that
         # contain less than 100 observations.
-        freqUpdate <- floor(dim(phrases)[1]/100)
         freqPercent <- 1
         for (i in 1:dim(phrases)[1]){
-                if(i %% freqUpdate == 0){
+                if(i %% freqUpdate == 0 && debug == FALSE){
                         print(paste0("Analyzing: ",
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 1
@@ -43,7 +44,7 @@ mergeSets <- function(data1, data2, data3){
         freqPercent <- 10
         freqUpdate <- floor(length(keyPhrases)/10)
         for(i in 1:length(keyPhrases)){
-                if(i %% freqUpdate == 0){
+                if(i %% freqUpdate == 0 && debug == FALSE){
                         print(paste0("Processing: ", 
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 10

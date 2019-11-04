@@ -13,15 +13,27 @@ predict <- function(text, hashList){
         
         nSuggestions <- 0
         suggestions <- c('', '', '')
-        if(len >= 4){
-                potentials <- hash5[[text]]
-                first <- potentials[1]
-                second <- potentials[2]
-                third <- potentials[3]
-                if(first != '' && nSuggestions < 3){
-                        suggestions[nSuggestions + 1] <- first
+        for (i in 1:4){
+                hashRef <- hashList[[i]]
+                if(len >= (5 - i) && nSuggestions < 3){
+                        potentials <- hashRef
+                        first <- potentials[1]
+                        second <- potentials[2]
+                        third <- potentials[3]
+                        if(first != '' && nSuggestions < 3){
+                                suggestions[nSuggestions + 1] <- first
+                                nSuggestions <- nSuggestions + 1
+                        }
+                        if(second != '' && nSuggestions < 3){
+                                suggestions[nSuggestions + 1] <- second
+                                nSuggestions <- nSuggestions + 1
+                        }
+                        if(third != '' && nSuggestions < 3){
+                                suggestions[nSuggestions + 1] <- third
+                                nSuggestions <- nSuggestions + 1
+                        }
                 }
         }
-
+        ## Single word implementation
         
 }

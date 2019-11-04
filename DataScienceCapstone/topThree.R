@@ -1,4 +1,5 @@
 topThree <- function(data){
+        debug = TRUE # Disables output log
         freqUpdate <- floor(dim(data)[1]/10)
         freqPercent <- 10
         
@@ -9,8 +10,8 @@ topThree <- function(data){
         hashkeys <- c('a', 'b', 'c', countKey)
         
         for (i in 1:dim(data)[1]){
-                if(i %% freqUpdate == 0){
-                        print(paste0("Analyzing: ", 
+                if(i %% freqUpdate == 0 && debug == FALSE){
+                        print(paste0("Analyzing: ",
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 10
                 }
@@ -46,8 +47,8 @@ topThree <- function(data){
         freqUpdate <- floor(length(firstPhrases)/10)
         freqPercent <- 10
         for (i in 1:length(firstPhrases)){
-                if(i %% freqUpdate == 0){
-                        print(paste0("Processing: ", 
+                if(i %% freqUpdate == 0 && debug == FALSE){
+                        print(paste0("Processing: ",
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 10
                 }

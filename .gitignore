@@ -7,3 +7,9 @@ data/
 DataScienceCapstone/CSV/
 GHIgnore/
 Output/
+
+Master Single Word Counts.csv
+Master Two Word Counts.csv
+Master Three Word Counts.csv
+Master Four Word Counts.csv
+Master Five Word Counts.csv
