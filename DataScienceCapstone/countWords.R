@@ -19,7 +19,7 @@ countWords <- function(phrases, log = TRUE){
                         if(i %% freqUpdate == 0){
                                 percent = round(i/length(phrases), 4)*100
                                 print(paste0("Analyzing: ", i, "/", length(phrases), ' (', 
-                                            percent, '%) ', "complete"))
+                                            percent, '%) ', "Complete"))
                         }
                         if(i %% freqReport == 0){
                                 time <- proc.time() - ptm
@@ -59,7 +59,7 @@ countWords <- function(phrases, log = TRUE){
                 }
         }
         
-        print("Finishing things up...")
+        print("Finishing Things Up...")
         # Convert the hash table data back into a dataframe 
         # and sort in descemding order
         word <- keys(wordCounts)

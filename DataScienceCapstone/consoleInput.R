@@ -1,12 +1,28 @@
 consoleInput <- function(){
+        debugMode = FALSE
+        # n1 = Blogs, n2 = News, n3 = Twitter (argument n for filterSpecial)
+        if(debugMode){
+                n1 = 2000
+                n2 = 2000
+                n3 = 2000
+        }
+        else{
+                n1 = 5
+                n2 = 5
+                n3 = 8
+        }
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
         # funcDir <- 'C:/DS Capstone/DataScienceCapstone/DataScienceCapstone/'
         # dataDir <- 'C:/DS Capstone/DataScienceCapstone/data/en_US/'
         ## Mac Directories
-        # funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone'
-        # dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
+        funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone'
+        dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
         setwd(funcDir)
+        
+        times <- data.frame(Process = character(), Time = numeric(), 
+                            stringsAsFactors = FALSE)
+        index <- 1
         
         start <- proc.time()
         
@@ -23,7 +39,7 @@ consoleInput <- function(){
         print('Reading Blogs Data...')
         data <- readLines(paste0(dataDir, 'en_US.blogs.txt'))
         print('Filtering Blogs Data...')
-        fdata <- filterSpecial(data, n = 5)
+        fdata <- filterSpecial(data, n = n1)
         print('Finding Blogs Single Word Counts...')
         gdata <- countWords(fdata)
         write.csv(gdata, 'Blogs Single Word Counts.csv', row.names = FALSE)
@@ -42,13 +58,16 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Intial read of blog data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '01_Blogs'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Initial Read of News Data
         ptm <- proc.time()
         print('Reading News Data...')
         data <- readLines(paste0(dataDir, 'en_US.news.txt'))
         print('Filtering News Data...')
-        fdata <- filterSpecial(data, n = 5)
+        fdata <- filterSpecial(data, n = n2)
         print('Finding News Single Word Counts...')
         gdata <- countWords(fdata)
         write.csv(gdata, 'News Single Word Counts.csv', row.names = FALSE)
@@ -67,13 +86,16 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Intial read of news data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '01_News'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Initial Read of Twitter Data
         ptm <- proc.time()
         print('Reading Twitter Data...')
         data <- readLines(paste0(dataDir, 'en_US.twitter.txt'))
         print('Filtering Twitter Data...')
-        fdata <- filterSpecial(data, n = 8)
+        fdata <- filterSpecial(data, n = n3)
         print('Finding Twitter Single Word Counts...')
         gdata <- countWords(fdata)
         write.csv(gdata, 'Twitter Single Word Counts.csv', row.names = FALSE)
@@ -94,7 +116,15 @@ consoleInput <- function(){
         readTime <- proc.time() - startSection
         print(paste0('Intial read of Twitter data complete. Total time: ', round(time[[1]], 0), 's'))
         print(paste0('Total read time: ', round(readTime[[1]], 0), 's'))
+        times[index, 1] <- '01_Twitter'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
+        times[index, 1] <- '01_Total'
+        times[index, 2] <- round(readTime[[1]], 2)
+        index = index + 1
         readline(prompt = "Press Enter to continue...")
+        
+        rm(data, fdata, gdata)
         
         source('filter.R')
         
@@ -126,6 +156,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Intial cleaning of blog data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '02_Blogs'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Initial Cleaning of News Data
         ptm <- proc.time()
@@ -152,6 +185,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Intial cleaning of news data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '02_News'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Initial Cleaning of Twitter Data
         ptm <- proc.time()
@@ -180,9 +216,15 @@ consoleInput <- function(){
         cleanTime <- proc.time() - startSection
         print(paste0('Intial cleaning of Twitter data complete. Total time: ', round(time[[1]], 0), 's'))
         print(paste0('Total cleaning time: ', round(cleanTime[[1]], 0), 's'))
+        times[index, 1] <- '02_Twitter'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
+        times[index, 1] <- '02_Total'
+        times[index, 2] <- round(cleanTime[[1]], 2)
+        index = index + 1
         readline(prompt = "Press Enter to continue...")
         
-        
+        rm(clean)
         
         ## (Optional) Top Three Sorting of Separate Data ##
         # These sets are created in case we want to customize suggestions based
@@ -213,6 +255,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Top Three sorting of blog data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '03_Blogs'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Top Three Sorting of News Data
         ptm <- proc.time()
@@ -235,6 +280,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Top Three sorting of news data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '03_News'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         # Top Three Sorting of Twitter Data
         ptm <- proc.time()
@@ -259,7 +307,15 @@ consoleInput <- function(){
         sortTime <- proc.time() - startSection
         print(paste0('Top Three sorting of Twitter data complete. Total time: ', round(time[[1]], 0), 's'))
         print(paste0('Total sorting time: ', round(sortTime[[1]], 0), 's'))
+        times[index, 1] <- '03_Twitter'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
+        times[index, 1] <- '03_Total'
+        times[index, 2] <- round(sortTime[[1]], 2)
+        index = index + 1
         readline(prompt = "Press Enter to continue...")
+        
+        rm(cleaner)
         
         ## Merge Datasets of the Same Word Count Number ##
         startSection <- proc.time()
@@ -279,6 +335,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Merging of single word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '04_Singles'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         blogs <- read.csv('Blogs Two Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -290,6 +349,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Merging of two word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '04_Twos'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         blogs <- read.csv('Blogs Three Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -301,6 +363,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Merging of three word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '04_Threes'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         blogs <- read.csv('Blogs Four Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -312,6 +377,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Merging of four word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '04_Fours'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         blogs <- read.csv('Blogs Five Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -325,7 +393,15 @@ consoleInput <- function(){
         mergeTime <- proc.time() - startSection
         print(paste0('Merging of five word data complete. Total time: ', round(time[[1]], 0), 's'))
         print(paste0('Total merge time: ', round(mergeTime[[1]], 0), 's'))
+        times[index, 1] <- '04_Fives'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
+        times[index, 1] <- '04_Totals'
+        times[index, 2] <- round(mergeTime[[1]], 2)
+        index = index + 1
         readline(prompt = "Press Enter to continue...")
+        
+        rm(blogs, news, twitter)
         
         ## Find Top Three of Master Datasets ##
         startSection <- proc.time()
@@ -338,6 +414,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Top Three Sorting of two word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '05_Twos'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         data <- read.csv('Master Three Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -347,6 +426,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Top Three Sorting of three word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '05_Threes'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         data <- read.csv('Master Four Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -356,6 +438,9 @@ consoleInput <- function(){
         
         time <- proc.time() - ptm
         print(paste0('Top Three Sorting of four word data complete. Total time: ', round(time[[1]], 0), 's'))
+        times[index, 1] <- '05_Fours'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
         
         ptm <- proc.time()
         data <- read.csv('Master Five Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
@@ -367,9 +452,21 @@ consoleInput <- function(){
         sortTime <- proc.time() - startSection
         print(paste0('Top Three Sorting of five word data complete. Total time: ', round(time[[1]], 0), 's'))
         print(paste0('Total sorting time: ', round(sortTime[[1]], 0), 's'))
+        times[index, 1] <- '05_Fives'
+        times[index, 2] <- round(time[[1]], 2)
+        index = index + 1
+        times[index, 1] <- '05_Total'
+        times[index, 2] <- round(sortTime[[1]], 2)
+        index = index + 1
         readline(prompt = "Press Enter to continue...")
+        
+        rm(data, cleaner)
         
         totalTime <- proc.time() - start
         print(paste0('Total runtime: ', round(totalTime[[1]], 0), 's'))
+        times[index, 1] <- 'Total'
+        times[index, 2] <- round(totalTime[[1]], 2)
+        index = index + 1
         
+        times
 }

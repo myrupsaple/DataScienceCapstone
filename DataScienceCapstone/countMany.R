@@ -18,7 +18,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                         if(i %% freqUpdate == 0){
                                 percent = round(i/length(phrases), 4)*100
                                 print(paste0("Analyzing: ", i, "/", length(phrases), ' (', 
-                                            percent, '%) ', "complete"))
+                                            percent, '%) ', "Complete"))
                         }
                         if(i %% freqReport == 0){
                                 time <- proc.time() - ptm
@@ -76,10 +76,10 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 }
         }
         
-        print("Finishing things up...")
+        print("Finishing Things Up...")
         # Convert the hash table data back into a dataframe 
         # and sort in descemding order
-        print("Retrieving keys...")
+        print("Retrieving Keys...")
         wordSequences <- keys(wordCounts)
         
         wordSequenceDat <- vector()

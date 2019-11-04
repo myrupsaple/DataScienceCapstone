@@ -43,8 +43,8 @@ topThree <- function(data){
         thirdPopular <- vector()
         counts <- vector()
         
-        freqPercent <- 10
         freqUpdate <- floor(length(firstPhrases)/10)
+        freqPercent <- 10
         for (i in 1:length(firstPhrases)){
                 if(i %% freqUpdate == 0){
                         print(paste0("Processing: ", 
