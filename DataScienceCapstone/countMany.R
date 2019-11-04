@@ -92,7 +92,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 if(i %% freqReport == 0){
                         percent = round(i/length(wordSequences), 4)*100
                         print(paste0("De-Hashing Counts: ", i, "/", length(wordSequences), ' (', 
-                                     percent, '%) ', "complete"))
+                                     percent, '%) ', "Complete"))
                 }
                 ################################################################
                 wordSequence <- wordSequences[i]

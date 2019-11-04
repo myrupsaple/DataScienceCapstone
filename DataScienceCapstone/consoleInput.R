@@ -7,7 +7,7 @@ consoleInput <- function(){
                 n3 = 2000
         }
         else{
-                n1 = 5
+                n1 = 10
                 n2 = 5
                 n3 = 8
         }
