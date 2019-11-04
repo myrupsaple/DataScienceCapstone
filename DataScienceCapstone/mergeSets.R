@@ -1,5 +1,5 @@
 mergeSets <- function(data1, data2, data3){
-        debug = TRUE # Disables output log
+        debug = FALSE # Disables output log
         library(hash)
         wordCounts <- hash()
         

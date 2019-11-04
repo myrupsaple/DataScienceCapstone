@@ -1,5 +1,5 @@
 topThree <- function(data){
-        debug = TRUE # Disables output log
+        debug = FALSE # Disables output log
         freqUpdate <- floor(dim(data)[1]/10)
         freqPercent <- 10
         

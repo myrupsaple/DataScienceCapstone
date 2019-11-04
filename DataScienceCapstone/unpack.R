@@ -1,4 +1,15 @@
 unpack <- function(data5, data4, data3, data2, data1){
+        # Remove leading spaces from first column of datasets
+        combined <- list(data5, data4, data3, data2, data1)
+        for (i in 1:5){
+                combined[[i]][, 1] <- gsub('^\\s', '', combined[[i]][, 1])
+        }
+        data5 <- combined[[1]]
+        data4 <- combined[[2]]
+        data3 <- combined[[3]]
+        data2 <- combined[[4]]
+        data1 <- combined[[5]]
+        
         hash5 <- hash()
         keys <- data5[, 1]
         followups <- data5[, 2:4]
