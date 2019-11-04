@@ -107,7 +107,7 @@ countMany <- function(phrases, n = 3, log = TRUE) {
                 }
         }
         
-        print('Finishing Final Touches...')
+        print('De-Hashing Complete. Finishing Final Touches...')
         tempCount <- vector()
         for (i in 1:length(counts)){
                 tempCount[i] <- counts[[i]]

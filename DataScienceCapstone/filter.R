@@ -6,8 +6,10 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                 data <- newdata
         }
         
+        nonzero <- dim(data)[1] > 0
+        
         # Removes any entries containing non-alphanumeric symbols
-        if(removeSymbols){
+        if(removeSymbols && nonzero){
                 length <- dim(data)[1]
                 toRemove <- vector()
                 index <- 1
@@ -26,13 +28,22 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                                 index = index + 1
                         }
                 }
-                newdata <- vector()
-                newdata <- data[-toRemove,]
-                data <- newdata
+                if(length(toRemove) > 0){
+                        newdata <- data[-toRemove,]
+                }
+                else{
+                        newdata <- data
+                }
+                newdata
         }
         
+        nonzero <- dim(data)[1] > 0
+        
         # Removes any entries that contain no letters
-        if(removeNoAlpha){
+        if(removeNoAlpha && nonzero){
+                if(length == 0){
+                        next
+                }
                 length <- dim(data)[1]
                 toRemove <- vector()
                 index <- 1
@@ -51,9 +62,13 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                                 index = index + 1
                         }
                 }
-                newdata <- vector()
-                newdata <- data[-toRemove,]
-                data <- newdata
+                if(length(toRemove) > 0){
+                        newdata <- data[-toRemove,]
+                }
+                else{
+                        newdata <- data
+                }
+                newdata
         }
         
         

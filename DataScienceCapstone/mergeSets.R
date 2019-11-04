@@ -3,11 +3,13 @@ mergeSets <- function(data1, data2, data3){
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
+        # May need to change '100' to something smaller for data sets that
+        # contain less than 100 observations.
         freqUpdate <- floor(dim(phrases)[1]/100)
         freqPercent <- 1
         for (i in 1:dim(phrases)[1]){
                 if(i %% freqUpdate == 0){
-                        print(paste0("Analyzing: ", 
+                        print(paste0("Analyzing: ",
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 1
                 }

@@ -17,7 +17,13 @@ removeSymbols <- function(data, twoOrMoreWords = TRUE){
                         index = index + 1
                 }
         }
-        newdata <- data[-toRemove,]
+        if(length(toRemove) > 0){
+                newdata <- data[-toRemove,]
+        }
+        else{
+                newdata <- data
+        }
         newdata
+        
         
 }
