@@ -7,8 +7,9 @@ consoleInput <- function(){
                 n3 = 2000
         }
         else{
-                n1 = 10
-                n2 = 10
+
+                n1 = 20
+                n2 = 20
                 n3 = 8
         }
         mode = 'PC'
