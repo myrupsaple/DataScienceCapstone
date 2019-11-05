@@ -73,7 +73,7 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
         
         if(removeProfanity && nonzero){
                 length <- dim(data)[1]
-                badWords <- readLines('extras/Facebook Bad Words.txt')
+                badWords <- readLines('extras/Bad Words.csv')
                 badWords <- unlist(strsplit(badWords, ', '))
                 toRemove <- vector()
                 index <-  1
@@ -117,7 +117,6 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                         }
                         match <- paste0('^', noAps[i], '$')
                         for (j in 1:length){
-                                print(match)
                                 if(grepl(match, data[j, 1 + twoOrMoreWords])){
                                         data[j, 1 + twoOrMoreWords] <- contractions[i]
                                 }

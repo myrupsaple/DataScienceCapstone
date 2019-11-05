@@ -12,7 +12,7 @@ consoleInput <- function(){
                 n2 = 20
                 n3 = 8
         }
-        mode = 'Mac'
+        mode = 'PC'
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
         if(mode == 'PC'){
