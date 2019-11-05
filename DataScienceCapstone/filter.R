@@ -1,12 +1,12 @@
 filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE, 
                    removeNoAlpha = TRUE, removeProfanity = TRUE,
                    convertContractions = TRUE, twoOrMoreWords = TRUE){
-        mode <- 'Mac'
+        mode <- 'PC'
         if(mode == 'Mac'){
                 setwd('/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone')       
         }
         else if(mode == 'PC'){
-                setwd('C:/DS Capstone/DataScienceCapstone/DataScienceCapstone/extras')
+                setwd('C:/DS Capstone/DataScienceCapstone/DataScienceCapstone/')
         }
         # Removes any items/pairings that appeared only once
         if(removeSingles){
