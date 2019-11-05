@@ -1,10 +1,10 @@
 mergeSets <- function(data1, data2, data3){
-        debug = TRUE # Disables output log
+        debug = FALSE # Disables output log
         library(hash)
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
-        freqUpdate <- floor(dim(phrases)[1]/100)
+        freqUpdate <- ceiling(dim(phrases)[1]/100)
         # May need to change '100' to something smaller for data sets that
         # contain less than 100 observations.
         freqPercent <- 1
@@ -42,7 +42,7 @@ mergeSets <- function(data1, data2, data3){
         index = 1
         
         freqPercent <- 10
-        freqUpdate <- floor(length(keyPhrases)/10)
+        freqUpdate <- ceiling(length(keyPhrases)/10)
         for(i in 1:length(keyPhrases)){
                 if(i %% freqUpdate == 0 && debug == FALSE){
                         print(paste0("Processing: ", 

@@ -1,6 +1,6 @@
 topThree <- function(data){
-        debug = TRUE # Disables output log
-        freqUpdate <- floor(dim(data)[1]/10)
+        debug = FALSE # Disables output log
+        freqUpdate <- ceiling(dim(data)[1]/10)
         freqPercent <- 10
         
         library(hash)
@@ -44,7 +44,7 @@ topThree <- function(data){
         thirdPopular <- vector()
         counts <- vector()
         
-        freqUpdate <- floor(length(firstPhrases)/10)
+        freqUpdate <- ceiling(length(firstPhrases)/10)
         freqPercent <- 10
         for (i in 1:length(firstPhrases)){
                 if(i %% freqUpdate == 0 && debug == FALSE){
