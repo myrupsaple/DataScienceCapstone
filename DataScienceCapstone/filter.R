@@ -10,7 +10,7 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
         }
         # Removes any items/pairings that appeared only once
         if(removeSingles){
-                newdata <- data[!(data[, 2 + twoOrMoreWords] < (1 + 2*(!twoOrMoreWords))), ] 
+                newdata <- data[!(data[, 2 + twoOrMoreWords] == 1), ] 
                 data <- newdata
         }
         
