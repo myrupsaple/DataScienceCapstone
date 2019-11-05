@@ -27,7 +27,7 @@ predict <- function(text, hashList, calls = 1, maxCalls = 3, mode = 'quick'){
                 }
                 hashTable <- hashList[[i]]
                 potentials <- hashTable[[lastWords]]
-                # print(paste(i, lastWords)) # Enable to see how the algorithm thinks
+                print(paste0('[', i, ']: ', lastWords)) # Enable to see how the algorithm thinks
                 # Potentials becomes null if a nonexisting hash key is used
                 if(is.null(potentials)){
                         lastWords <- unlist(strsplit(lastWords, ' '))
@@ -64,7 +64,7 @@ predict <- function(text, hashList, calls = 1, maxCalls = 3, mode = 'quick'){
         # attempt to fill it in, then attempt to predict once more. This
         # recursive call will cause the function to execute no more than
         # maxCalls times in total
-        if(nSuggestions == 0 && calls < maxCalls){
+        if(nSuggestions == 0 && length(text) > 1 && calls < maxCalls){
                 text <- text[-length(text)]
                 calls = calls + 1
                 suggestions <- predict(text, hashList, calls = calls)

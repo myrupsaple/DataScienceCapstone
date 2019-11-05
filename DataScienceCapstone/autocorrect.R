@@ -1,8 +1,7 @@
 autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
         # Modes: 'full' will run through every possible filter
-        # 'quick' will only attempt to cut off letters from the start/end of
-        # each word.
-        type <- mode
+        # 'quick' will run the fast filters (will not cycle through the entire
+        # alphabet in an effort to find a match)
         for (i in 1:length(text)){
                 word <- text[i]
                 characters <- unlist(strsplit(word, ''))
@@ -20,6 +19,9 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 len <- nchar(word)
                 
                 for (j in 1:len){
+                        if(mode != 'full'){
+                                break
+                        }
                         lhs <- substr(word, 0, j - 1)
                         rhs <- substr(word, j, len)
                         for (k in 1:28){
@@ -29,9 +31,6 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                                         text[i] <- newWord
                                         break
                                 }
-                        }
-                        if(match){
-                                break
                         }
                 }
                 if(match){
@@ -46,13 +45,9 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         char2 <- substr(word, j + 1, j + 1)
                         rhs <- substr(word, j + 2, len)
                         newWord <- paste0(lhs, char2, char1, rhs)
-                        print(newWord)
                         if(newWord %in% wordBank){
                                 match <- TRUE
                                 text[i] <- newWord
-                                break
-                        }
-                        if(match){
                                 break
                         }
                 }
@@ -63,6 +58,9 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 # See if the user mistyped a character. Replace each chararacter
                 # with all letters and see if this creates a match
                 for (j in 1:len + 1){
+                        if(mode != 'full'){
+                                break
+                        }
                         lhs <- substr(word, 0, j - 1)
                         rhs <- substr(word, j + 1, len)
                         for (k in 1:28){
@@ -72,9 +70,6 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                                         text[i] <- newWord
                                         break
                                 }
-                        }
-                        if(match){
-                                break
                         }
                 }
                 if(match){
@@ -92,9 +87,6 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                                 text[i] <- newWord
                                 break
                         }
-                        if(match){
-                                break
-                        }
                 }
                 if(match){
                         next
@@ -108,7 +100,7 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 forwards <- characters
                 forwardIndex <- 0
                 lenCharStart <- length(forwards)
-                for (i in 1:(lenCharStart - minLength + 1)){
+                for (j in 1:(lenCharStart - minLength + 1)){
                         # print(forwards) # See how the algorithm thinks
                         indices <- which(grepl(paste0('^', paste(forwards, collapse = '')), 
                                                wordBank))
@@ -127,7 +119,7 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 backwards <- characters
                 backwardIndex <- 0
                 lenCharStart <- length(backwards)
-                for (i in 1:(lenCharStart - minLength + 1)){
+                for (j in 1:(lenCharStart - minLength + 1)){
                         # print(backwards) # See how the algorithm thinks
                         indices <- which(grepl(paste0(paste(backwards, collapse = ''), '$'), 
                                                wordBank))
@@ -140,7 +132,10 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 }
                 # If both matches are found, choose the word that matched more
                 # characters
-                if(length(forwards) > length(backwards)){
+                if(forwardIndex == 0 && backwardIndex == 0){
+                        break
+                }
+                else if(length(forwards) > length(backwards)){
                         text[i] <- wordBank[forwardIndex]
                 }
                 else if(length(forwards) < length(backwards)){
