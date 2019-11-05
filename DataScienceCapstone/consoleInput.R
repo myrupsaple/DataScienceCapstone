@@ -1,5 +1,5 @@
 consoleInput <- function(){
-        debugMode = TRUE # Will do a quick run-through of the entire function
+        debugMode = FALSE # Will do a quick run-through of the entire function
         requireInput = FALSE # Will require user input between major sections
         # n1 = Blogs, n2 = News, n3 = Twitter (argument n for filterSpecial)
         if(debugMode){
@@ -10,9 +10,9 @@ consoleInput <- function(){
         else{
                 n1 = 20
                 n2 = 20
-                n3 = 8
+                n3 = 12
         }
-        mode = 'Mac'
+        mode = 'PC'
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
         if(mode == 'PC'){
