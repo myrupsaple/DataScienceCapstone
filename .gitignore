@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 
+extras/
 data/
 DataScienceCapstone/CSV/
 GHIgnore/
