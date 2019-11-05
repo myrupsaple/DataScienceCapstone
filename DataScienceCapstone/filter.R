@@ -10,7 +10,7 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
         }
         # Removes any items/pairings that appeared only once
         if(removeSingles){
-                newdata <- data[!(data[, 2 + twoOrMoreWords] == 1), ] 
+                newdata <- data[!(data[, 2 + twoOrMoreWords] < (1 + 2*(!twoOrMoreWords))), ] 
                 data <- newdata
         }
         
@@ -77,7 +77,7 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                 badWords <- unlist(strsplit(badWords, ', '))
                 toRemove <- vector()
                 index <-  1
-                progressMarker <- floor(length(badWords)/10)
+                progressMarker <- ceiling(length(badWords)/10)
                 percent <- 10
                 for (i in 1:length(badWords)){
                         if(i %% progressMarker == 0){

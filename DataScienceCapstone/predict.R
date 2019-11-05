@@ -1,9 +1,10 @@
-predict <- function(text, hashList, calls = 1, maxCalls = 3, mode = 'quick'){
+predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
         source('autocorrect.R')
         
         allText <- unlist(strsplit(text, ' '))
         allText <- tolower(allText)
         text <- allText[max(1, length(allText) - 6):length(allText)]
+        text <- gsub('[[punct:]]', '', text)
         
         # Autocorrect any words that do not match our single words table
         # See if the last word closely resembles one of the items in our single
