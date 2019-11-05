@@ -1,6 +1,15 @@
-predict <- function(text, hashList, calls = 1, maxCalls = 3){
-        text <- unlist(strsplit(text, ' '))
-        text <- tolower(text)
+predict <- function(text, hashList, calls = 1, maxCalls = 3, mode = 'quick'){
+        source('autocorrect.R')
+        
+        allText <- unlist(strsplit(text, ' '))
+        allText <- tolower(allText)
+        text <- allText[max(1, length(allText) - 6):length(allText)]
+        
+        # Autocorrect any words that do not match our single words table
+        # See if the last word closely resembles one of the items in our single
+        # word table. Re-attempt to find suggestions with the replaced word.
+        text <- autocorrect(text, wordBank = hashList[[1]], minLength = 3,
+                            mode = mode)
 
         lastWords <- tail(text, min(length(text), 4))
         len <- length(lastWords)
@@ -18,7 +27,7 @@ predict <- function(text, hashList, calls = 1, maxCalls = 3){
                 }
                 hashTable <- hashList[[i]]
                 potentials <- hashTable[[lastWords]]
-                # print(lastWords) # Walkback to see prediction process
+                # print(paste(i, lastWords)) # Enable to see how the algorithm thinks
                 # Potentials becomes null if a nonexisting hash key is used
                 if(is.null(potentials)){
                         lastWords <- unlist(strsplit(lastWords, ' '))
@@ -50,13 +59,15 @@ predict <- function(text, hashList, calls = 1, maxCalls = 3){
                 lastWords <- lastWords[-1]
                 lastWords <- paste(lastWords, collapse = ' ')
         }
-        # If we have no suggestions, delete the most recent word and attempt to
-        # fill it in, then attempt to predict once more. This recursive call
-        # will run the function no more than maxCalls times
+        
+        # If we still have no suggestions, delete the most recent word and
+        # attempt to fill it in, then attempt to predict once more. This
+        # recursive call will cause the function to execute no more than
+        # maxCalls times in total
         if(nSuggestions == 0 && calls < maxCalls){
                 text <- text[-length(text)]
                 calls = calls + 1
-                suggestions <- predict(text, hashList, calls)
+                suggestions <- predict(text, hashList, calls = calls)
         }
         
         

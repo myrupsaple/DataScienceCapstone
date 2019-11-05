@@ -31,7 +31,7 @@ unpack <- function(data5, data4, data3, data2, data1){
                 
                 hash5[[keys[i]]] <- hashList
         }
-        print('Data5 process complete.')
+        print('1/5 Unpacked')
         
         hash4 <- hash()
         keys <- data4[, 1]
@@ -54,7 +54,7 @@ unpack <- function(data5, data4, data3, data2, data1){
                 
                 hash4[[keys[i]]] <- hashList
         }
-        print('Data4 process complete.')
+        print('2/5 Unpacked')
         
         hash3 <- hash()
         keys <- data3[, 1]
@@ -77,7 +77,7 @@ unpack <- function(data5, data4, data3, data2, data1){
                 
                 hash3[[keys[i]]] <- hashList
         }
-        print('Data3 process complete.')
+        print('3/5 Unpacked')
         
         hash2 <- hash()
         keys <- data2[, 1]
@@ -100,12 +100,10 @@ unpack <- function(data5, data4, data3, data2, data1){
                 
                 hash2[[keys[i]]] <- hashList
         }
-        print('Data2 process complete.')
+        print('4/5 Unpacked')
         
-        hash1 <- hash()
-        print('Data1 process complete.')
+        hash1 <- data1[, 1]
+        print('Unpacking Complete')
         
         list(hash1, hash2, hash3, hash4, hash5)
-        
-        
 }
