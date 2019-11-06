@@ -4,13 +4,14 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
         allText <- unlist(strsplit(text, ' '))
         allText <- tolower(allText)
         text <- allText[max(1, length(allText) - 6):length(allText)]
-        text <- gsub('[[punct:]]', '', text)
         
         # Autocorrect any words that do not match our single words table
         # See if the last word closely resembles one of the items in our single
         # word table. Re-attempt to find suggestions with the replaced word.
         text <- autocorrect(text, wordBank = hashList[[1]], minLength = 3,
                             mode = mode)
+        
+        text <- gsub('[[punct:]]', '', text)
 
         lastWords <- tail(text, min(length(text), 4))
         len <- length(lastWords)

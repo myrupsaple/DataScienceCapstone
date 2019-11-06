@@ -1,8 +1,6 @@
 unpack <- function(data1, data2, data3, data4, data5){
         # Remove leading spaces from first column of datasets
-        for (i in 1:5){
-                combined[[i]][, 1] <- gsub('^\\s', '', combined[[i]][, 1])
-        }
+        combined <- list(data1, data2, data3, data4, data5)
         
         hash1 <- data1[, 1]
         print('1/5 Unpacked')

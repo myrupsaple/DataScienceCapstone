@@ -1,7 +1,20 @@
 topThree <- function(data){
-        debug = TRUE # Disables output log
-        freqUpdate <- ceiling(dim(data)[1]/10)
+        debug = FALSE # Disables output log
+        len <- dim(data)[1]
+        freqUpdate <- ceiling(len/10)
         freqPercent <- 10
+        
+        # Remove leading spaces from datasets.
+        for (i in 1:len){
+                if(i %% freqUpdate == 0 && debug == FALSE){
+                        print(paste0("Removing Leading Spaces: ",
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 10
+                }
+                data[i , 1] <- gsub('^\\s', '', data[i, 1])
+        }
+        
+        print('Finished removing leading whitespaces')
         
         library(hash)
         wordCounts <- hash()
@@ -9,7 +22,7 @@ topThree <- function(data){
         indexKey <- '#IndexHash!'
         hashkeys <- c('a', 'b', 'c', countKey)
         
-        for (i in 1:dim(data)[1]){
+        for (i in 1:len){
                 if(i %% freqUpdate == 0 && debug == FALSE){
                         print(paste0("Analyzing: ",
                                      freqPercent, '%', " complete"))
