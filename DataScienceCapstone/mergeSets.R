@@ -4,7 +4,20 @@ mergeSets <- function(data1, data2, data3){
         wordCounts <- hash()
         
         phrases <- rbind(data1, data2, data3)
+        
         freqUpdate <- ceiling(dim(phrases)[1]/100)
+        freqPercent <- 1
+        # Remove leading spaces from datasets.
+        for (i in 1:len){
+                if(i %% freqUpdate == 0 && debug == FALSE){
+                        print(paste0("Removing Leading Spaces: ",
+                                     freqPercent, '%', " complete"))
+                        freqPercent <- freqPercent + 1
+                }
+                
+                data[i , 1] <- gsub('^\\s', '', data[i, 1])
+        }
+        
         # May need to change '100' to something smaller for data sets that
         # contain less than 100 observations.
         freqPercent <- 1
