@@ -11,10 +11,12 @@ topThree <- function(data){
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 10
                 }
+                
                 data[i , 1] <- gsub('^\\s', '', data[i, 1])
         }
         
         print('Finished removing leading whitespaces')
+        freqPercent <- 10
         
         library(hash)
         wordCounts <- hash()
