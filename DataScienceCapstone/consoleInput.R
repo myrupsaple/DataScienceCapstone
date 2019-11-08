@@ -1,6 +1,7 @@
 consoleInput <- function(){
-        debugMode = FALSE # Will do a quick run-through of the entire function
+        debugMode = TRUE # Will do a quick run-through of the entire function
         requireInput = FALSE # Will require user input between major sections
+        mode = 'Mac'
         # n1 = Blogs, n2 = News, n3 = Twitter (argument n for filterSpecial)
         if(debugMode){
                 n1 = 2000
@@ -12,7 +13,6 @@ consoleInput <- function(){
                 n2 = 20
                 n3 = 12
         }
-        mode = 'PC'
         ### One of the directory sets must be enabled for this script to work!!!
         ## PC Directories
         if(mode == 'PC'){
@@ -21,11 +21,21 @@ consoleInput <- function(){
         }
         ## Mac Directories
         else if(mode == 'Mac'){
-                funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone'
+                funcDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone/'
                 dataDir <- '/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/data/en_US/'
         }
         setwd(funcDir)
         
+        # Set up output directories
+        dir.create(file.path(funcDir, 'Output'), showWarnings = FALSE)
+        outputDir <- paste0(funcDir, '/Output')
+        dir.create(file.path(outputDir, '01_PreProcessed'), showWarnings = FALSE)
+        dir.create(file.path(outputDir, '02_Cleaned'), showWarnings = FALSE)
+        dir.create(file.path(outputDir, '03_Merged'), showWarnings = FALSE)
+        dir.create(file.path(outputDir, '04a_TopThree_Separate'), showWarnings = FALSE)
+        dir.create(file.path(outputDir, '04b_TopThree_Merged'), showWarnings = FALSE)
+        
+        # Startup printouts
         print(paste0('Debug Mode: ', debugMode, ' | OS Mode: ', mode, 
                      ' | Require User Input: ', requireInput))
         print('Starting up...')
@@ -430,6 +440,10 @@ consoleInput <- function(){
         ## Find Top Three of Master Datasets ##
                 startSection <- proc.time()
         
+        # Copy single word set over to new directory
+        data <- read.csv('Output/03_Merged/Master Single Word Counts.csv', colClasses = c('character', 'numeric'))
+        write.csv(data, 'Output/04b_TopThree_Merged/Master Single Word Counts.csv', row.names = FALSE); rm(data)
+
                 ptm <- proc.time()
         data <- read.csv('Output/03_Merged/Master Two Word Counts.csv', colClasses = c('character', 'character', 'numeric'))
         print('Top Three Sorting Two Word Counts...')

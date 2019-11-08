@@ -77,7 +77,7 @@ topThree <- function(data){
         }
                 
         topThree <- data.frame(keyWords, firstPopular, secondPopular, 
-                               thirdPopular, counts)
+                               thirdPopular, counts, stringsAsFactors = FALSE)
         topThree <- topThree[order(keyWords), ]
         rownames(topThree) <- c()
         colnames(topThree) <- c('Key_Words', 'Most_Popular', 'Second_Popular',

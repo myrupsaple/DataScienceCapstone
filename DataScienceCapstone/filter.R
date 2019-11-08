@@ -1,7 +1,7 @@
 filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE, 
                    removeNoAlpha = TRUE, removeProfanity = TRUE,
                    convertContractions = TRUE, twoOrMoreWords = TRUE){
-        mode <- 'PC'
+        mode <- 'Mac'
         if(mode == 'Mac'){
                 setwd('/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone')       
         }

@@ -1,7 +1,5 @@
-predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
-        source('autocorrect.R')
-        
-        showThinking = TRUE;
+predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1, nSuggestions = 0){
+        source('functions/autocorrect.R')
         
         allText <- unlist(strsplit(text, ' '))
         allText <- tolower(allText)
@@ -9,19 +7,23 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
         
         text <- gsub('[[:punct:]]', '', text)
         
+        original <- paste(text, collapse = ' ')
+        
         # Autocorrect any words that do not match our single words table
         # See if the last word closely resembles one of the items in our single
         # word table. Re-attempt to find suggestions with the replaced word.
         text <- autocorrect(text, wordBank = hashList[[1]], minLength = 3,
                             mode = mode)
+        
+        corrected <- paste(text, collapse = ' ')
 
         lastWords <- tail(text, min(length(text), 4))
         len <- length(lastWords)
         lastWords <- paste(lastWords, collapse = ' ')
         
-        nSuggestions <- 0
         suggestions <- c('', '', '')
         
+        nSuggestions <- nSuggestions
         # Predict using the 4 most recently typed words, then 3 most recent,
         # then two most recent, then single most recent. Stop if we have found
         # 3 suggestions.
@@ -31,24 +33,16 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
                 }
                 hashTable <- hashList[[i]]
                 potentials <- hashTable[[lastWords]]
-                if(showThinking){
-                        
-                        if(is.null(potentials)){
-                                secondOutput <- ' | No Matches'
-                        }
-                        else{
-                                secondOutput <- paste0(' | Suggestions: (1) ', 
-                                     potentials[1], ', (2) ', potentials[2], ', (3) ', potentials[3])
-                        }
-                        print(paste0(paste0('[', i, ']: ', lastWords), secondOutput))
-                }
                 # Potentials becomes null if a nonexisting hash key is used
                 if(is.null(potentials)){
+                        print(paste0('[', i, ']: ', lastWords, ' | No Matches'))
                         lastWords <- unlist(strsplit(lastWords, ' '))
                         lastWords <- lastWords[-1]
                         lastWords <- paste(lastWords, collapse = ' ')
                         next
                 }
+                print(paste0(paste0('[', i, ']: ', lastWords), ' | Suggestions: (1) ', 
+                             potentials[1], ', (2) ', potentials[2], ', (3) ', potentials[3])) # Enable to see how the algorithm thinks
                 # If we got a successful hash key, apply the suggestions
                 first <- potentials[1]
                 second <- potentials[2]
@@ -81,11 +75,11 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
         if(nSuggestions == 0 && length(text) > 1 && calls < maxCalls){
                 text <- text[-length(text)]
                 calls = calls + 1
-                suggestions <- predict(text, hashList, calls = calls)
+                suggestions <- predict(text, hashList, calls = calls, nSuggestions = nSuggestions)[[3]]
         }
         
         
-        suggestions
+        list(original, corrected, suggestions)
         ## Single word implementation
         
 }

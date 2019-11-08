@@ -13,7 +13,7 @@ mergeSetsSingles <- function(data1, data2, data3){
                                      freqPercent, '%', " complete"))
                         freqPercent <- freqPercent + 1
                 }
-                phrases[i , 1] <- gsub('^\\s', '', data[i, 1])
+                phrases[i , 1] <- gsub('^\\s', '', phrases[i, 1])
         }
         
         for (i in 1:dim(phrases)[1]){
