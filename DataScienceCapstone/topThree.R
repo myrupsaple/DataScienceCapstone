@@ -4,9 +4,6 @@ topThree <- function(data){
         freqUpdate <- ceiling(len/10)
         freqPercent <- 10
         
-        print('Finished removing leading whitespaces')
-        freqPercent <- 10
-        
         library(hash)
         wordCounts <- hash()
         countKey <- '#CountHash!'
