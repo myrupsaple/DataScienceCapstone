@@ -1,11 +1,10 @@
 removeSymbols <- function(data, twoOrMoreWords = TRUE){
-        length <- dim(data)[1]
         toRemove <- vector()
         index <- 1
         for (i in 1:length){
-                if(i %% 1000 == 0)
+                if(i %% 10000 == 0)
                 {
-                        print(paste0(i, '/', length, ' done'))
+                        print(paste0('RemoveSymbols: ', i, '/', length, ' done'))
                 }
                 
                 if (grepl('[^[:alnum:]|[:blank:]]', data[i, 1])){
@@ -18,12 +17,8 @@ removeSymbols <- function(data, twoOrMoreWords = TRUE){
                 }
         }
         if(length(toRemove) > 0){
-                newdata <- data[-toRemove,]
+                newdata <- data[-toRemove, ]
+                data <- newdata
         }
-        else{
-                newdata <- data
-        }
-        newdata
-        
-        
+        data
 }

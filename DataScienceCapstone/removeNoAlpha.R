@@ -1,11 +1,14 @@
 removeNoAlpha <- function(data, twoOrMoreWords = TRUE){
+        if(length == 0){
+                next
+        }
         length <- dim(data)[1]
         toRemove <- vector()
         index <- 1
         for (i in 1:length){
-                if(i %% 1000 == 0)
+                if(i %% 10000 == 0)
                 {
-                        print(paste0(i, '/', length, ' done'))
+                        print(paste0('RemoveNoAlpha: ', i, '/', length, ' done'))
                 }
                 
                 if (!grepl('+[[:lower:]]', data[i, 1])){
@@ -17,7 +20,9 @@ removeNoAlpha <- function(data, twoOrMoreWords = TRUE){
                         index = index + 1
                 }
         }
-        newdata <- data[-toRemove,]
-        newdata
-        
+        if(length(toRemove) > 0){
+                newdata <- data[-toRemove, ]
+                data <- newdata
+        }
+        data
 }

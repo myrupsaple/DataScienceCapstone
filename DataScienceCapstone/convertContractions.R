@@ -1,4 +1,4 @@
-convertContractions <- function(data){
+convertContractions <- function(data, twoOrMoreWords = TRUE){
         length <- dim(data)[1]
         contractions <- readLines('extras/Contractions.txt')
         contractions <- unlist(strsplit(contractions, ','))
@@ -12,7 +12,6 @@ convertContractions <- function(data){
                 }
                 match <- paste0('^', noAps[i], '$')
                 for (j in 1:length){
-                        print(match)
                         if(grepl(match, data[j, 1 + twoOrMoreWords])){
                                 data[j, 1 + twoOrMoreWords] <- contractions[i]
                         }
