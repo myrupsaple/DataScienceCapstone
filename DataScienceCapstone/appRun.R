@@ -1,5 +1,7 @@
-runApp <- function(){
+appRun <- function(){
+        #####################Set your function directory here###################
         setwd('/Users/Riley 1/Documents/Data Science/John Hopkins/Course 10 - Capstone/DataScienceCapstone/DataScienceCapstone')
+        ########################################################################
         classes <- c('character', 'numeric')
         data1 <- read.csv('Output/04b_TopThree_Merged/Master Single Word Counts.csv', colClasses = classes)
         classes <- c('character', 'character', 'character', 'character', 'character')

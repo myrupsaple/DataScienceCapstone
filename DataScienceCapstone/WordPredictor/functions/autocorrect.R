@@ -2,18 +2,23 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
         # Modes: 'full' will run through every possible filter
         # 'quick' will run the fast filters (will not cycle through the entire
         # alphabet in an effort to find a match)
+        
+        # additiveIndex keeps track of additional words we add to the string 
+        # (in the case where the user concatenates two words)
+        additiveIndex <- 0
+        newText <- character()
         for (i in 1:length(text)){
                 word <- text[i]
                 characters <- unlist(strsplit(word, ''))
                 # If word is valid or is too small to be autocorrected, skip
                 if((word %in% wordBank) || (length(characters) <= minLength)){
+                        newText[i + additiveIndex] <- word
                         next
                 }
                 # See if the user missed a character. Insert all letters into
                 # each slot in the word and see if this creates a match.
                 inserts <- tolower(LETTERS)
-                inserts[27] <- "'"
-                inserts[28] <- "-"
+                inserts[27] <- "-"
                 match <- FALSE
                 
                 len <- nchar(word)
@@ -24,11 +29,11 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         }
                         lhs <- substr(word, 0, j - 1)
                         rhs <- substr(word, j, len)
-                        for (k in 1:28){
+                        for (k in 1:length(inserts)){
                                 newWord <- paste0(lhs, inserts[k], rhs)
                                 if(newWord %in% wordBank){
                                         match <- TRUE
-                                        text[i] <- newWord
+                                        newText[i + additiveIndex] <- newWord
                                         break
                                 }
                         }
@@ -47,7 +52,7 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         newWord <- paste0(lhs, char2, char1, rhs)
                         if(newWord %in% wordBank){
                                 match <- TRUE
-                                text[i] <- newWord
+                                newText[i + additiveIndex] <- newWord
                                 break
                         }
                 }
@@ -63,11 +68,11 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         }
                         lhs <- substr(word, 0, j - 1)
                         rhs <- substr(word, j + 1, len)
-                        for (k in 1:28){
+                        for (k in 1:length(inserts)){
                                 newWord <- paste0(lhs, inserts[k], rhs)
                                 if(newWord %in% wordBank){
                                         match <- TRUE
-                                        text[i] <- newWord
+                                        newText[i + additiveIndex] <- newWord
                                         break
                                 }
                         }
@@ -84,7 +89,24 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         newWord <- paste0(lhs, rhs)
                         if(newWord %in% wordBank){
                                 match <- TRUE
-                                text[i] <- newWord
+                                newText[i + additiveIndex] <- newWord
+                                break
+                        }
+                }
+                if(match){
+                        next
+                }
+                
+                # See if the user concatenated two words (missed a space). If so,
+                # add both words to the corrected string
+                for (j in 1:len){
+                        lhs <- substr(word, 0, j)
+                        rhs <- substr(word, j + 1, len)
+                        if(lhs %in% wordBank && rhs %in% wordBank){
+                                newText[i + additiveIndex] <- lhs
+                                additiveIndex <- additiveIndex + 1
+                                newText[i + additiveIndex] <- rhs
+                                match <- TRUE
                                 break
                         }
                 }
@@ -112,6 +134,7 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                         lenChar <- length(forwards)
                         forwards <- forwards[-lenChar]
                 }
+                
                 # Find matches starting from the back of the word (by taking
                 # letters off of the front one by one). Corrects for typos near
                 # the front of the word. Stops once we reach the minimum word
@@ -133,24 +156,34 @@ autocorrect <- function(text, wordBank, minLength, mode = 'quick'){
                 # If both matches are found, choose the word that matched more
                 # characters
                 if(forwardIndex == 0 && backwardIndex == 0){
-                        break
+                        match <- FALSE;
                 }
                 else if(length(forwards) > length(backwards)){
-                        text[i] <- wordBank[forwardIndex]
+                        newText[i + additiveIndex] <- wordBank[forwardIndex]
+                        match <- TRUE
                 }
                 else if(length(forwards) < length(backwards)){
-                        text[i] <- wordBank[backwardIndex]
+                        newText[i + additiveIndex] <- wordBank[backwardIndex]
+                        match <- TRUE
                 }
                 # If there is a tie for length, choose the word that was more
                 # commonly used.
                 else{
                         if(forwardIndex <= backwardIndex){
-                                text[i] <- wordBank[forwardIndex]
+                                newText[i + additiveIndex] <- wordBank[forwardIndex]
                         }
                         else if(forwardIndex > backwardIndex){
-                                text[i] <- wordBank[backwardIndex]
+                                newText[i + additiveIndex] <- wordBank[backwardIndex]
                         }
+                        match <- TRUE
                 }
+                if(match){
+                        next
+                }
+                
+                # If no corrections could be made, return the value to the array
+                newText[i + additiveIndex] <- word
+                
         }
-        text
+        newText
 }

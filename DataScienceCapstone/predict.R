@@ -1,13 +1,17 @@
 predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
         source('autocorrect.R')
         
+        if(maxCalls < 1){
+                maxCalls <- 1
+        }
+        
         showThinking = TRUE;
         
         allText <- unlist(strsplit(text, ' '))
         allText <- tolower(allText)
-        text <- allText[max(1, length(allText) - 6):length(allText)]
+        text <- allText[max(1, length(allText) - (2 + maxCalls)):length(allText)]
         
-        text <- gsub('[[:punct:]]', '', text)
+        text <- gsub('[[:punct:]]|[[:space:]]', '', text)
         
         # Autocorrect any words that do not match our single words table
         # See if the last word closely resembles one of the items in our single
@@ -37,8 +41,24 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
                                 secondOutput <- ' | No Matches'
                         }
                         else{
-                                secondOutput <- paste0(' | Suggestions: (1) ', 
-                                     potentials[1], ', (2) ', potentials[2], ', (3) ', potentials[3])
+                                if(is.na(potentials[2])){
+                                        potentials[2] <- ''
+                                }
+                                if(is.na(potentials[3])){
+                                        potentials[3] <- ''
+                                }
+                                if(nSuggestions == 0){
+                                        secondOutput <- paste0(' | Suggestions: (1) ', 
+                                                               potentials[1], ' (2) ', potentials[2], ' (3) ', potentials[3])
+                                }
+                                else if(nSuggestions == 1){
+                                        secondOutput <- paste0(' | Suggestions: (1) ', 
+                                                               suggestions[1], ' (2) ', potentials[1], ' (3) ', potentials[2])
+                                }
+                                else if(nSuggestions == 2){
+                                        secondOutput <- paste0(' | Suggestions: (1) ', 
+                                                               suggestions[1], ' (2) ', suggestions[2], ' (3) ', potentials[1])
+                                }
                         }
                         print(paste0(paste0('[', i, ']: ', lastWords), secondOutput))
                 }
@@ -58,11 +78,11 @@ predict <- function(text, hashList, maxCalls = 3, mode = 'quick', calls = 1){
                         suggestions[nSuggestions + 1] <- first
                         nSuggestions <- nSuggestions + 1
                 }
-                if(!is.na(second) && nSuggestions < 3 && !(second %in% suggestions)){
+                if(second != '' && nSuggestions < 3 && !(second %in% suggestions)){
                         suggestions[nSuggestions + 1] <- second
                         nSuggestions <- nSuggestions + 1
                 }
-                if(!is.na(third) && nSuggestions < 3 && !(third %in% suggestions)){
+                if(third != '' && nSuggestions < 3 && !(third %in% suggestions)){
                         suggestions[nSuggestions + 1] <- third
                         nSuggestions <- nSuggestions + 1
                 }

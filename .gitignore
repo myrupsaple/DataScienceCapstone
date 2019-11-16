@@ -8,6 +8,7 @@ data/
 CSV/
 GHIgnore/
 Output/
+WordPredictor/
 
 Master Single Word Counts.csv
 Master Two Word Counts.csv

@@ -103,7 +103,7 @@ filter <- function(data, removeSingles = TRUE, removeSymbols = TRUE,
                 }
         }
         
-        if(convertContractions && nonzero){
+        if(convertContractions && nonzero && twoOrMoreWords){
                 length <- dim(data)[1]
                 contractions <- readLines('extras/Contractions.txt')
                 contractions <- unlist(strsplit(contractions, ','))
